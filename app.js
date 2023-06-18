@@ -7,7 +7,8 @@ const app = express();
 
 const sequelize = require('./util/database');
 const errorController = require('./controllers/error');
-const signUpRoutes = require('./routes/signup');
+const signupRoutes = require('./routes/signup');
+const loginRoutes = require('./routes/login');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,11 +16,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Route to serve the sign-up page
+// Route to serve the home page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'root.html'));
 });
-app.use('/signup', signUpRoutes);
+app.use(loginRoutes);
+app.use(signupRoutes);
 app.use(errorController.get404);
 
 

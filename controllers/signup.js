@@ -1,18 +1,11 @@
-const SignUp = require('../models/signup');
+const User = require('../models/user');
 
 exports.createUser = async (req, res) => {
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password;
     try{
-        const userData = await SignUp.create({
-            name: name,
-            email: email,
-            password: password
-        })
-        res.status(201).json({ signUp: userData });
+        const { name, email, password } = req.body;
+        await User.create({ name, email, password });
     }
     catch (error) {
-        res.status(400).json({error: 'Failed to create user'});
+        res.status(500).send( 'Failed to create user' );
     }
 };

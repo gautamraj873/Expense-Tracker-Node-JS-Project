@@ -14,7 +14,7 @@
                 <header>Login</header>
             </div>
 
-            <form action="/login" method="POST">
+            <form action="/login" method="POST" id="loginForm">
                 <div class="input-field">
                     <input type="text" class="input" placeholder="Email" name="email" id="email" required>
                     <i class='bx bx-user'></i>
@@ -44,36 +44,52 @@
             </div>
 
             <div class="">
-                <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+                <p>Don't have an account? <a href="signup">Sign Up</a></p>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        const loginForm = document.querySelector('form');
+        const loginForm = document.getElementById('loginForm');
         const errorMessage = document.getElementById('error-message');
 
-        loginForm.addEventListener('submit', async (event) => {
+        loginForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const userData ={
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
 
-            try {
-            const response = await axios.post('/login', { email, password });
+            // try {
+            //     const response = await axios.post('/login', userData);
+            //     console.log(response);
+            //     if (response && response.status == 200) {
+            //         alert(response.data.message);
+            //     }
+            //     // Display the error message returned from the backend
+            //     else {
+            //         throw new Error(response.data.message);
+            //     }
+            // } 
+            // catch (error) {
+            //     errorMessage.textContent = error.message;
+            // }
 
-            if (response && response.status === 200) {
-                // Redirect to the home page
-                // window.location.href = '/';
-                console.log('successful');
-            } else {
-                // Display the error message returned from the backend
-                throw new Error(response.data);
-            }
-            } catch (error) {
-                errorMessage.textContent = error.message;
-            }
+            axios.post('/login', userData)
+                    .then(response => {
+                        console.log(response.data);
+                        if (response && response.status === 200) {
+                            alert(response.data.message);
+                        } else {
+                            throw new Error(response.data.message);
+                        }
+                    })
+                    .catch(error => {
+                        errorMessage.textContent = error.message;
+                    });
         });
-    </script>
+            
+    </script>  
 </body>
 </html>

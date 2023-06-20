@@ -65,13 +65,14 @@
                 const response = await axios.post('/login', userData);
                 console.log(response);
                 if (response && response.status === 200) {
-                    alert(response.data.message);
+                    console.log(response.data.message);
                 } else {
                     throw new Error(response.data.message);
                 }
             } catch (error) {
                 errorMessage.textContent = error.message;
             }
+            window.location.href = '/expense';
         });
     </script>  
 </body>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Details</title>
+</head>
+<body>
+    <form id="expenseForm" action="/expense/add-expense" method="POST">
+        <div>
+          <label for="amount">Amount:</label>
+          <input type="number" id="amount" name="amount" required>
+        </div>
+        <div>
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+              <option value="">Select a category</option>
+              <option value="food">Food</option>
+              <option value="transportation">Transportation</option>
+              <option value="housing">Housing</option>
+            </select>
+          </div>
+        <div>
+          <label for="description">Description:</label>
+          <input type="text" id="description" name="description" required>
+        </div>
+        <div>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+        <button type="submit" onclick="handleSubmit(event)">Add Expense</button>
+      </form>
+
+      <div id="expenseList">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody id="expenseData">
+    
+            </tbody>
+        </table>
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  axios.get('/expense/add-expense')
+      .then(response => {
+          const expenseData = response.data;
+          const tablebody = document.getElementById('expenseData');
+          let tableHTML = '';
+
+          if(Array.isArray(expenseData)){
+              expenseData.forEach(expense => {
+                  tableHTML += `
+                  <tr id="row-id-${expense.id}">
+                      <td>${expense.id}</td>
+                      <td>${expense.amount}</td>
+                      <td>${expense.category}</td>
+                      <td>${expense.description}</td>
+                      <td>${expense.date}</td>
+                      <td>
+                          <button type="button" onclick="handleEdit('${expense.id}')">Edit</button>
+                          <button type="button" onclick="handleDelete('${expense.id}')">Delete</button>
+                      </td>
+                  </tr>
+                  `;
+              })
+          }
+
+          tablebody.innerHTML = tableHTML;
+      })
+      .catch(error => {
+          console.log(error);
+      });
+});
+
+const handleEdit = (expenseId) => {
+  const amount = document.getElementById("amount");
+  const category = document.getElementById("category");
+  const description = document.getElementById("description");
+  const date = document.getElementById("date");
+
+  axios.get(`/expense/add-expense/${expenseId}`)
+      .then(response => {
+          const expense = response.data;
+          if(expense){
+              amount.value = expense.amount;
+              category.value = expense.category;
+              description.value = expense.description;
+              date.value = expense.date;
+          }
+      })
+      .catch(error => {
+          console.log(error);
+      });
+
+      handleDelete(expenseId);
+};
+
+const handleDelete = (expenseId)=> {
+  if(confirm('Are you sure?')){
+      axios.delete(`expense/add-expense/${expenseId}`)
+          .then(() => {
+              const deletedRow = document.getElementById(`row-id-${expenseId}`);
+              if(deletedRow){
+                  deletedRow.remove();
+              }
+          })
+          .catch(error => {
+              console.log(error);
+          });
+      }
+};
+
+const handleSubmit = (event)=> {
+  event.preventDefault();
+  const expenseData = {
+      amount: document.getElementById("amount").value,
+      category: document.getElementById("category").value,
+      description: document.getElementById("description").value,
+      date: document.getElementById("date").value
+  };
+
+  axios.post('/expense/add-expense', expenseData)
+      .then(response => {
+          const newExpense = response.data;
+          const tablebody = document.getElementById('expenseData');
+
+          const newRow = document.createElement('tr');
+          newRow.id = `row-id-${newExpense.id}`;
+          newRow.innerHTML = `
+              <td>${newExpense.id}</td>
+              <td>${newExpense.amount}</td>
+              <td>${newExpense.category}</td>
+              <td>${newExpense.description}</td>
+              <td>${newExpense.date}</td>
+              <td>
+                  <button type="button" onclick="handleEdit('${newExpense.id}')">Edit</button>
+                  <button type="button" onclick="handleDelete('${newExpense.id}')">Delete</button>
+              </td>
+          `;
+
+          tablebody.appendChild(newRow);
+
+          // Clear input fields
+          document.getElementById("description").value = '';
+          document.getElementById("amount").value = '';
+          document.getElementById("category").value = '';
+          document.getElementById("date").value = '';
+      })
+      .catch(err => {
+              console.log(err);
+      });
+};
+</script>
+</html>
+
+

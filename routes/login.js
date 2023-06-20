@@ -4,10 +4,13 @@ const path = require('path');
 const loginController = require('../controllers/login');
 
 
-router.get('/login', (req, res) => {
+router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/login.html'));
 });
 
-router.post('/login', loginController.loginCheck);
+router.post('/', loginController.loginCheck, (req, res, next) => {
+    redirect('/expense');
+    next();
+});
 
 module.exports = router;

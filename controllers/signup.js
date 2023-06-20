@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
-exports.createUser = async (req, res) => {
+exports.addUser = async (req, res) => {
     try{
         const { name, email, password } = req.body;
         const saltrounds = 10;

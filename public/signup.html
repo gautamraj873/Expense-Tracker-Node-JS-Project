@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <h1>Sign Up</h1>
-        <form action="/signup" method="POST">
+        <form action="/signup" method="POST" id="signupForm">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter your name" required>
@@ -33,4 +33,12 @@
         </form>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const signupForm = document.getElementById('signupForm');
+    signupForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        window.location.href = '/expense';
+    });
+</script>
 </html>

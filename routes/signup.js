@@ -8,9 +8,8 @@ router.get('/', (req, res) => {
 });
 
 // User sign up
-router.post('/', signUpController.addUser, (req, res, next) => {
-    res.redirect('/expense');
-    next();
+router.post('/', signUpController.addUser, (req, res) => {
+    res.redirect('/login');
 });
 
 module.exports = router;

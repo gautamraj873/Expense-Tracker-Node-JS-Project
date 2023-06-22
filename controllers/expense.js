@@ -2,13 +2,13 @@ const Expense = require('../models/expense');
 
 exports.getExpense = async (req, res) => {
     try{
-        const expenseData = await Expense.findAll();
+        const expenseData = await Expense.findAll({ where: {userId: req.user.id}});
         res.json(expenseData);
     }
     catch (error) {
         res.status(500).json({error: 'Failed to fetch expenses'});
     }
-}
+};
 
 exports.addExpense = async (req, res) => {
     const amount = req.body.amount;
@@ -20,7 +20,8 @@ exports.addExpense = async (req, res) => {
             amount: amount,
             category: category,
             description: description,
-            date: date
+            date: date,
+            userId: req.user.id
         })
         res.status(201).json({ expense: expenseData });
     }
@@ -37,7 +38,7 @@ exports.deleteExpense = async (req, res) => {
           return res.status(404).json({ error: 'Expense not found' });
         }
     
-        await expense.destroy();
+        await expense.destroy({where: {id: expenseId, userId: req.user.id}});
         res.status(200).json({ message: 'Expense deleted successfully' });
     }
     catch (error) {

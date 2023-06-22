@@ -63,13 +63,15 @@
 
             try {
                 const response = await axios.post('/login', userData);
-                console.log(response);
                 if (response && response.status === 200) {
-                    console.log(response.data.message);
+                    const token = response.data.token;
+                    localStorage.setItem('token', token);
+                    console.log(response.data.token);
                 } else {
                     throw new Error(response.data.message);
                 }
-            } catch (error) {
+            } 
+            catch (error) {
                 errorMessage.textContent = error.message;
             }
             window.location.href = '/expense';

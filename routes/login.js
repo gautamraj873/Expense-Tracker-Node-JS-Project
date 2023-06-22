@@ -8,9 +8,8 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/login.html'));
 });
 
-router.post('/', loginController.loginCheck, (req, res, next) => {
+router.post('/', loginController.loginCheck, (req, res) => {
     redirect('/expense');
-    next();
 });
 
 module.exports = router;

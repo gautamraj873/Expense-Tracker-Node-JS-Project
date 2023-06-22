@@ -23,7 +23,7 @@ const Expense = sequelize.define('expense', {
     date: {
       type: Sequelize.DATEONLY,
       allowNull: false
-  }
+    }
 });
 
 module.exports = Expense;

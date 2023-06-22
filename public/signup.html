@@ -38,7 +38,24 @@
     const signupForm = document.getElementById('signupForm');
     signupForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        window.location.href = '/expense';
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const userData = {
+            name: name,
+            email: email,
+            password: password
+        };
+
+        try {
+            await axios.post('/signup', userData);
+            window.location.href = '/login';
+        } 
+        catch (error) {
+            console.error('Error occurred during signup:', error);
+        }
     });
 </script>
 </html>

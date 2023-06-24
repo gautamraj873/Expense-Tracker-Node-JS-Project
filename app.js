@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
 
 const app = express();
 
@@ -11,8 +10,10 @@ const errorController = require('./controllers/error');
 const signupRoutes = require('./routes/signup');
 const loginRoutes = require('./routes/login');
 const expenseRoutes = require('./routes/expense');
+const purchaseRoutes = require('./routes/purchase');
 const Expense = require('./models/expense');
 const User = require('./models/user');
+const Order = require('./models/order');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,10 +26,14 @@ app.get('/', (req, res) => {
 app.use('/login', loginRoutes);
 app.use('/signup', signupRoutes);
 app.use('/expense', expenseRoutes);
+app.use('/purchase', purchaseRoutes);
 app.use(errorController.get404);
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
+
+User.hasMany(Order);
+Order.belongsTo(User);
 
 sequelize
     .sync()

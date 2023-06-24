@@ -6,6 +6,7 @@
     <title>Expense Details</title>
 </head>
 <body>
+
     <form id="expenseForm" action="/expense/data" method="POST">
         <div>
           <label for="amount">Amount:</label>
@@ -49,7 +50,13 @@
         </table>
     </div>
 
+    <div>
+        <button id="rzp-button">Buy Premium</button>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
 
         function retrieveExpenseData() {
@@ -57,7 +64,7 @@
             axios.get('/expense/data', {headers: {"Authorization": token}})
             .then(response => {
                 const expenseData = response.data;
-                console.log(expenseData);
+                // console.log(expenseData);
                 const tableBody = document.getElementById('expenseData');
                 let tableHTML = '';
 
@@ -144,6 +151,41 @@
                 console.log(err);
             });
         };
+
+        document.getElementById('rzp-button').onclick = async (event) => {
+            event.preventDefault();
+            const token = localStorage.getItem('token');
+            const purchaseResponse = await axios.get('/purchase/premiumMembership', {headers: {"Authorization": token}});
+            const {key_id, order} = purchaseResponse.data;
+            // console.log(purchaseResponse.data);
+            var options = {
+                "key": key_id, // key ID generated from the dashboard
+                "order_id": order.id, // for one time payment
+                "handler": async (response) => {   // handler function will handle the success payment
+                    // console.log(response);
+                    try {
+                        const transactionResponse = await axios.post('/purchase/updateTransactionStatus', {
+                            razorpay_order_id: options.order_id,
+                            razorpay_payment_id: response.razorpay_payment_id }, {headers: {"Authorization": token}});
+                        if (transactionResponse.data.success) {
+                            alert('You are a Premium User now');
+                            document.getElementById('rzp-button').style.display = 'none';
+                        } else {
+                            alert('Transaction failed');
+                        }
+                    } catch (error) {
+                        alert('Something went wrong');
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            // console.log(rzp);
+            rzp.open();
+            rzp.on('payment.failed', (response) => {
+                alert('Payment Failed');
+            });
+        }
 
         document.addEventListener('DOMContentLoaded', retrieveExpenseData);
 

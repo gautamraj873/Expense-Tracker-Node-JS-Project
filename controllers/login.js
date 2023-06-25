@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-function generateAccessToken(userId){
-  return jwt.sign({userId}, 'qsdcvbyjkl53ij rdszefghDFGYUJK758563');
+function generateAccessToken(userId, name, isPremiumUser){
+  return jwt.sign({userId, name, isPremiumUser}, 'qsdcvbyjkl53ij rdszefghDFGYUJK758563');
 }
 
 //login check
@@ -18,7 +18,7 @@ exports.loginCheck = async (req, res) => {
               throw new Error("Something went wrong");
             }
             else if(result == true){
-              const token = generateAccessToken(user[0].id);
+              const token = generateAccessToken(user[0].id, user[0].name, user[0].isPremiumUser);
               res.status(200).json({success: true, message: "Login successfull", token});
             }
             else{

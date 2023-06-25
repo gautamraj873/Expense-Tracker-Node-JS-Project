@@ -31,19 +31,19 @@ exports.updateTransactionStatus = async (req, res) => {
       if(!order){
         return res.status(404).json({error: 'Order not found'});
       }
-      
-      if (!razorpay_payment_id) {
+
+      if (razorpay_payment_id) {
+        // Transaction is successful
+        const promise1 = order.update({ paymentId: razorpay_payment_id, status: 'SUCCESSFUL', userId: req.user.id });
+        const promise2 = req.user.update({ isPremiumUser: true, status: 'SUCCESSFUL' });
+        await Promise.all([promise1, promise2]);
+        return res.status(200).json({ success: true, message: 'Transaction Successful', token: loginController.generateAccessToken(userId, undefined, true ) });        
+      } else { 
         // Transaction failed
         const promise1 = order.update({ status: 'FAILED', userId: req.user.id });
         const promise2 = req.user.update({ isPremiumUser: false, status: 'FAILED' });
         await Promise.all([promise1, promise2]);
         return res.status(400).json({ success: false, message: 'Transaction Failed' });
-      } else { 
-        // Transaction is successful
-        const promise1 = order.update({ paymentId: razorpay_payment_id, status: 'SUCCESSFUL', userId: req.user.id });
-        const promise2 = req.user.update({ isPremiumUser: true, status: 'SUCCESSFUL' });
-        await Promise.all([promise1, promise2]);
-        return res.status(200).json({ success: true, message: 'Transaction Successful' });
       }
     } catch (error) {
         res.status(403).json({ error: 'Something went wrong' });

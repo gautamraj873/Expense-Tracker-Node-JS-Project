@@ -11,6 +11,7 @@ const signupRoutes = require('./routes/signup');
 const loginRoutes = require('./routes/login');
 const expenseRoutes = require('./routes/expense');
 const purchaseRoutes = require('./routes/purchase');
+const premiumFeatureRoutes = require('./routes/premiumFeature');
 const Expense = require('./models/expense');
 const User = require('./models/user');
 const Order = require('./models/order');
@@ -27,6 +28,7 @@ app.use('/login', loginRoutes);
 app.use('/signup', signupRoutes);
 app.use('/expense', expenseRoutes);
 app.use('/purchase', purchaseRoutes);
+app.use('/premium', premiumFeatureRoutes);
 app.use(errorController.get404);
 
 User.hasMany(Expense);

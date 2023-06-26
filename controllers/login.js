@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-function generateAccessToken(userId, name, isPremiumUser){
+exports.generateAccessToken = (userId, name, isPremiumUser) => {
   return jwt.sign({userId, name, isPremiumUser}, 'qsdcvbyjkl53ij rdszefghDFGYUJK758563');
 }
 

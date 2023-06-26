@@ -1,3 +1,4 @@
+const { generateAccessToken } = require('./login');
 const Razorpay = require('razorpay');
 const Order = require('../models/order');
 require('dotenv').config();
@@ -37,7 +38,7 @@ exports.updateTransactionStatus = async (req, res) => {
         const promise1 = order.update({ paymentId: razorpay_payment_id, status: 'SUCCESSFUL', userId: req.user.id });
         const promise2 = req.user.update({ isPremiumUser: true, status: 'SUCCESSFUL' });
         await Promise.all([promise1, promise2]);
-        return res.status(200).json({ success: true, message: 'Transaction Successful', token: loginController.generateAccessToken(userId, undefined, true ) });        
+        return res.status(200).json({ success: true, message: 'Transaction Successful', token : generateAccessToken(req.user.id, undefined, true ) });        
       } else { 
         // Transaction failed
         const promise1 = order.update({ status: 'FAILED', userId: req.user.id });
@@ -46,6 +47,7 @@ exports.updateTransactionStatus = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Transaction Failed' });
       }
     } catch (error) {
+      console.log(error);
         res.status(403).json({ error: 'Something went wrong' });
       }
 }

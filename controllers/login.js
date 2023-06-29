@@ -3,11 +3,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-exports.generateAccessToken = (userId, name, isPremiumUser) => {
+const generateAccessToken = (userId, name, isPremiumUser) => {
   return jwt.sign({userId, name, isPremiumUser}, 'qsdcvbyjkl53ij rdszefghDFGYUJK758563');
 }
 
-//login check
 exports.loginCheck = async (req, res) => {
     const { email, password } = req.body;
     try{

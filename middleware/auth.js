@@ -1,11 +1,10 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
-// Middleware to authenticate the token
-exports.authenticateToken = (req, res, next) => {
+exports.authenticate = (req, res, next) => {
   try{
     const token = req.header('Authorization');
-    const user = jwt.verify(token, 'qsdcvbyjkl53ij rdszefghDFGYUJK758563');
+    const user = jwt.verify(token, process.env.TOKEN);
     User.findByPk(user.userId).then(user => {
       req.user = user;
       next();

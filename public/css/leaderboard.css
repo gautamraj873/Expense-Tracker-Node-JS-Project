@@ -1,0 +1,90 @@
+/* leaderboard.css */
+
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+/* Navigation bar styles */
+.navbar {
+  background-color: #343a40;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.nav-link {
+  color: #fff;
+}
+
+#png {
+  margin-right: 5px;
+}
+
+.topBtn {
+  margin-left: 10px;
+}
+
+/* Leaderboard heading styles */
+h2 {
+  text-align: center;
+  color: #343a40;
+}
+
+/* Leaderboard table styles */
+.table {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0 auto;
+  width: 70%;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+}
+
+.table th {
+  background-color: #343a40;
+  color: #fff;
+  font-weight: bold;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f2f2f2;
+}
+
+/* Table row styles */
+.table-row {
+  border-bottom: 1px solid #ccc;
+}
+
+/* Table cell styles */
+.table-cell {
+  text-align: center;
+}
+
+.position-cell {
+  font-weight: bold;
+}
+
+.name-cell {
+  text-align: left;
+}
+
+.expenses-cell {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Table row highlighting */
+.highlighted-row {
+  background-color: #ffd700;
+}

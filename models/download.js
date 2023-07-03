@@ -1,16 +1,17 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../util/database");
 
-const Order = sequelize.define("order", {
+const Download = sequelize.define("download", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
-  paymentid: Sequelize.STRING,
-  orderid: Sequelize.STRING,
-  status: Sequelize.STRING,
+  fileUrl: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 });
 
-module.exports = Order;
+module.exports = Download;

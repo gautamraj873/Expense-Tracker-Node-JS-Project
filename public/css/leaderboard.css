@@ -1,90 +1,82 @@
-/* leaderboard.css */
-
-/* Global styles */
+html,
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
+  height: 100%;
+  width: 100%;
+  background-color: #effeff;
 }
-
-.container {
-  margin-top: 20px;
+/* 293241 dark
+  3d5a80 blue
+  98c1d9 light
+*/
+.editDelete {
+  float: right;
+  margin: 3px;
+  padding: 3px 10px;
 }
-
-/* Navigation bar styles */
-.navbar {
-  background-color: #343a40;
-}
-
-.navbar-brand {
-  font-weight: bold;
-}
-
-.nav-link {
-  color: #fff;
-}
-
 #png {
-  margin-right: 5px;
+  margin-right: 10px;
 }
-
+#form1 {
+  border-radius: 10px;
+  background-color: #3d5a80;
+  box-shadow: 4px 4px 9px #293241;
+  margin: 20px 193px;
+}
+#table {
+  border-radius: 10px;
+  background-color: #d2eaf7;
+  /* background-image: linear-gradient(to bottom right, #c7e9fd, #3d5a80); */
+  box-shadow: 4px 4px 9px #b8b8b8;
+}
+#submitBtn {
+  width: 140px;
+  background-color: #293241;
+  border-color: #293241;
+  color: white;
+}
 .topBtn {
-  margin-left: 10px;
+  background-color: white;
+  border-color: white;
+  color: #293241;
+}
+#navigation {
+  background-color: #233b64;
+}
+#categoryBtn {
+  background-color: #293241;
+  width: auto;
+  border-radius: 7px;
+  border: none;
+  color: white;
+}
+#category {
+  width: 300px;
+}
+.input-group-text {
+  background-color: #293241;
+  color: white;
+  border: none;
+}
+#description {
+  width: 2000px;
 }
 
-/* Leaderboard heading styles */
-h2 {
-  text-align: center;
-  color: #343a40;
+.trStyle {
+  background-color: transparent;
 }
-
-/* Leaderboard table styles */
-.table {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-collapse: collapse;
-  margin: 0 auto;
-  width: 70%;
+#categoryBtn:hover,
+#submitBtn:hover,
+.editDelete:hover {
+  background-color: #ffffff;
+  color: #293241;
+  border-color: #293241;
 }
-
-.table th,
-.table td {
-  padding: 10px;
+.topBtn:hover {
+  background-color: #3d5a80;
+  color: white;
+  border-color: #3d5a80;
 }
-
-.table th {
-  background-color: #343a40;
-  color: #fff;
-  font-weight: bold;
-}
-
-.table-hover tbody tr:hover {
-  background-color: #f2f2f2;
-}
-
-/* Table row styles */
-.table-row {
-  border-bottom: 1px solid #ccc;
-}
-
-/* Table cell styles */
-.table-cell {
-  text-align: center;
-}
-
-.position-cell {
-  font-weight: bold;
-}
-
-.name-cell {
-  text-align: left;
-}
-
-.expenses-cell {
-  font-weight: bold;
-  color: #007bff;
-}
-
-/* Table row highlighting */
-.highlighted-row {
-  background-color: #ffd700;
+.editDelete {
+  background-color: #293241;
+  border: none;
 }

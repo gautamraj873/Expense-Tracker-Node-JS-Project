@@ -57,7 +57,7 @@ async function addExpense() {
     const token = localStorage.getItem("token");
     const res = await axios
       .post(
-        "http://localhost:3000/expense/addExpense",
+        "http://13.51.175.217:3000/expense/addExpense",
         {
           date: dateStr,
           category: categoryValue,
@@ -84,7 +84,7 @@ async function getAllExpenses() {
   try {
     const token = localStorage.getItem("token");
     const res = await axios.get(
-      "http://localhost:3000/expense/getAllExpenses/1",
+      "http://13.51.175.217:3000/expense/getAllExpenses/1",
       { headers: { Authorization: token } }
     );
     res.data.expenses.forEach((expenses) => {
@@ -164,7 +164,7 @@ async function paginationBtn(e) {
     const pageNo = e.target.textContent;
     const token = localStorage.getItem("token");
     const res = await axios.get(
-      `http://localhost:3000/expense/getAllExpenses/${pageNo}`,
+      `http://13.51.175.217:3000/expense/getAllExpenses/${pageNo}`,
       { headers: { Authorization: token } }
     );
 
@@ -234,7 +234,7 @@ async function deleteExpense(e) {
       let tr = e.target.parentElement.parentElement;
       let id = tr.children[0].textContent;
       const res = await axios.get(
-        `http://localhost:3000/expense/deleteExpense/${id}`,
+        `http://13.51.175.217:3000/expense/deleteExpense/${id}`,
         { headers: { Authorization: token } }
       );
       window.location.reload();
@@ -256,7 +256,7 @@ async function editExpense(e) {
       let id = tr.children[0].textContent;
       //Fill the input values with the existing values
       const res = await axios.get(
-        "http://localhost:3000/expense/getAllExpenses",
+        "http://13.51.175.217:3000/expense/getAllExpenses",
         { headers: { Authorization: token } }
       );
       res.data.forEach((expense) => {
@@ -273,7 +273,7 @@ async function editExpense(e) {
             e.preventDefault();
             console.log("request to backend for edit");
             const res = await axios.post(
-              `http://localhost:3000/expense/editExpense/${id}`,
+              `http://13.51.175.217:3000/expense/editExpense/${id}`,
               {
                 category: categoryValue.textContent.trim(),
                 description: descriptionValue.value,
@@ -294,7 +294,7 @@ async function editExpense(e) {
 async function buyPremium(e) {
   const token = localStorage.getItem("token");
   const purchaseResponse = await axios.get(
-    "http://localhost:3000/purchase/premiumMembership",
+    "http://13.51.175.217:3000/purchase/premiumMembership",
     { headers: { Authorization: token } }
   );
   const { key_id, order } = purchaseResponse.data;
@@ -304,7 +304,7 @@ async function buyPremium(e) {
     handler: async function (response) {
       try {
         const transactionResponse = await axios.post(
-          "http://localhost:3000/purchase/updateTransactionStatus",
+          "http://13.51.175.217:3000/purchase/updateTransactionStatus",
           {
             razorpay_order_id: options.order_id,
             razorpay_payment_id: response.razorpay_payment_id,
@@ -336,7 +336,7 @@ async function buyPremium(e) {
 
 async function isPremiumUser() {
   const token = localStorage.getItem("token");
-  const res = await axios.get("http://localhost:3000/user/isPremiumUser", {
+  const res = await axios.get("http://13.51.175.217:3000/user/isPremiumUser", {
     headers: { Authorization: token },
   });
   if (res.data.isPremiumUser) {
@@ -362,7 +362,7 @@ async function logout() {
 async function download() {
   const token = localStorage.getItem("token");
   try {
-    const response = await axios.get("http://localhost:3000/expense/download", {
+    const response = await axios.get("http://13.51.175.217:3000/expense/download", {
       headers: { Authorization: token },
     });
 
